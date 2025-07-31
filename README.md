@@ -27,10 +27,10 @@ pip install -r requirements.txt
 - l'API météo utilisée est : https://open-meteo.com/ - ne nécessite pas de clé d'API, open-meteo permet de récupérer les prévisions météo à 7 jours pour une ville donnée, avec les températures minimales et maximales, ainsi que les précipitations à partir des coordonnées géographiques (latitude et longitude).
 - l'API de géocodage sera utilisée pour obtenir les coordonnées GPS : https://nominatim.openstreetmap.org/ (autre alternative : https://geocoding-api.open-meteo.com/v1/search), User-Agent doit être identifié dans les headers de la requête
 
-# Lancer le serveur MCP
+# Lancer le serveur MCP avec l'ASGI uvicorn pour FastAPI
 
 ```bash
-uv run app.main:app --reload
+uvicorn main:app --reload
 ```
 
 L'API est disponible à l'adresse suivante : http://127.0.0.1:8000/docs
