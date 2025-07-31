@@ -1,6 +1,6 @@
 import requests
 
-def get_coordinates(city: str) -> str:
+def get_coordinates(city: str) -> tuple:
     """
     Renvoie les coordonnées latitude et longitude pour une ville (optionnellement 'ville, pays').
     """
@@ -25,4 +25,5 @@ def get_coordinates(city: str) -> str:
 
     latitude = data[0]["lat"]
     longitude = data[0]["lon"]
-    return f"Coordonnées de {city} : latitude = {latitude}, longitude = {longitude}"
+    print(f"Coordonnées de {city} : latitude = {latitude}, longitude = {longitude}")
+    return latitude, longitude

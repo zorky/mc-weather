@@ -24,8 +24,8 @@ pip install -r requirements.txt
 
 # Météo et coordonnées
 
-- l'API météo utilisée est : https://open-meteo.com/ - ne nécessite pas de clé d'API
-- l'API de géocodage utilisée est : https://nominatim.openstreetmap.org/ (autre alternative : https://geocoding-api.open-meteo.com/v1/search), User-Agent doit être identifié dans les headers de la requête
+- l'API météo utilisée est : https://open-meteo.com/ - ne nécessite pas de clé d'API, open-meteo permet de récupérer les prévisions météo à 7 jours pour une ville donnée, avec les températures minimales et maximales, ainsi que les précipitations à partir des coordonnées géographiques (latitude et longitude).
+- l'API de géocodage sera utilisée pour obtenir les coordonnées GPS : https://nominatim.openstreetmap.org/ (autre alternative : https://geocoding-api.open-meteo.com/v1/search), User-Agent doit être identifié dans les headers de la requête
 
 # Lancer le serveur MCP
 
@@ -54,10 +54,10 @@ curl -X POST http://127.0.0.1:8000/mcp/tool_call \
   -d '{
     "name": "get_weather",
     "parameters": {
-      "city": "Paris"
+      "city": "Paris, France"
     }
   }'
-  {"result":"Soleil, 25°C"}
+  {"result":"Prévisions météo pour les 3 prochains jours :\n- 2025-07-31 : 16.3°C → 26.1°C, pluie : 0.2 mm\n- 2025-08-01 : 18.0°C → 24.9°C, pluie : 0.2 mm\n- 2025-08-02 : 14.8°C → 23.5°C, pluie : 0.0 mm\n"}
 ```
 les coordonnées de la ville sont récupérées via l'API de géocodage, puis la météo est récupérée via l'API météo.
 
