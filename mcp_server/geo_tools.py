@@ -37,3 +37,14 @@ def get_coordinates(city: str) -> tuple:
     longitude = data[0]["lon"]
     print(f"Coordonnées de {city} : latitude = {latitude}, longitude = {longitude}")
     return latitude, longitude
+
+@tool
+def get_coordinates_v2(city: str) -> tuple:
+    """Récupère les coordonnées GPS d'une ville donnée sous forme de (latitude, longitude)."""
+    url = f"https://geocoding-api.open-meteo.com/v1/search?name={city}&count=1"
+    r = requests.get(url)
+    data = r.json()
+    if results := data.get("results"):
+        return results[0]["latitude"], results[0]["longitude"]
+    else:
+        return "Ville inconnue", "Ville inconnue"

@@ -774,6 +774,7 @@ dependencies = [
     { name = "langchain-core" },
     { name = "langchainhub" },
     { name = "openai" },
+    { name = "pydantic" },
     { name = "requests" },
     { name = "uvicorn" },
 ]
@@ -786,6 +787,7 @@ requires-dist = [
     { name = "langchain-core", specifier = ">=0.3.72" },
     { name = "langchainhub", specifier = ">=0.1.21" },
     { name = "openai", specifier = ">=1.98.0" },
+    { name = "pydantic", specifier = ">=2.11.7" },
     { name = "requests", specifier = ">=2.32.4" },
     { name = "uvicorn", specifier = ">=0.35.0" },
 ]
