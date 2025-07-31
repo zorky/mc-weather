@@ -1,11 +1,11 @@
 import requests
+from langchain.tools import tool
+# from langchain_core.tools import tool
 from geo_tools import get_coordinates
+
+@tool
 def get_weather(city: str) -> str:
-    # fake_weather = {
-    #     "Paris": "Soleil, 25°C",
-    #     "Lyon": "Nuageux, 22°C",
-    #     "Marseille": "Vent fort, 28°C"
-    # }
+    """Renvoie les prévisions météo pour une ville donnée. description obligatoire pour @tool"""
     lat, lon = get_coordinates(city)
     url = "https://api.open-meteo.com/v1/forecast"
     params = {
@@ -31,3 +31,5 @@ def get_weather(city: str) -> str:
     print(f"Météo pour {city} : {output.strip()}")
     return output
     # return fake_weather.get(city, f"Aucune donnée météo pour {city}")
+
+# async def get_weather(city: str) -> str:

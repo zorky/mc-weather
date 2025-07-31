@@ -14,6 +14,12 @@ source .venv/bin/activate
 uv sync
 ```
 
+ajout de packages :
+
+```bash
+uv add langchain langchain-community langchainhub openai
+```
+
 ## PIP
 
 ```bash
@@ -30,6 +36,7 @@ pip install -r requirements.txt
 # Lancer le serveur MCP avec l'ASGI uvicorn pour FastAPI
 
 ```bash
+cd mcp_server
 uvicorn main:app --reload
 ```
 

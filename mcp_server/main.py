@@ -18,6 +18,7 @@ async def call_tool(request: Request):
     params = payload.get("parameters", {})
 
     if tool_name == "get_weather":
+        # result = await get_weather(params.get("city", ""))
         result = get_weather(params.get("city", ""))
         return {"result": result}
     elif tool_name == "get_coordinates":

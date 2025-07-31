@@ -1,8 +1,18 @@
 import requests
+from langchain.tools import tool
 
+@tool
 def get_coordinates(city: str) -> tuple:
     """
-    Renvoie les coordonnées latitude et longitude pour une ville (optionnellement 'ville, pays').
+    Récupère la latitude et la longitude d'une ville (et optionnellement d'un pays)
+    à l'aide de l'API Nominatim d'OpenStreetMap.
+
+    Args:
+        city (str): Le nom de la ville.
+        country (str, optional): Le nom du pays (pour plus de précision).
+
+    Returns:
+        dict: Un dictionnaire contenant la latitude et la longitude.
     """
     url = "https://nominatim.openstreetmap.org/search"
     params = {
