@@ -80,3 +80,13 @@ curl -X POST http://127.0.0.1:8000/mcp/tool_call \
   {"result":"Coordonnées de Paris : latitude = 48.8588897, longitude = 2.3200410"}
 ```
 
+demander au LLM de faire une requête vers le tool `mcp` :
+
+```bash
+curl -X 'GET' \
+  'http://127.0.0.1:8000/ask?question=quel%20est%20le%20temps%20%C3%A0%20Paris%20%3F' \
+  -H 'accept: application/json'
+```
+```bash
+curl --get --data-urlencode "question=Quelle est la météo des 3 prochains jours à Bordeaux, France ?" http://127.0.0.1:8000/ask
+```

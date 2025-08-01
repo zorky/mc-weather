@@ -1,0 +1,93 @@
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+from typing import Dict
+
+from agent.agent import agent
+from logger import init_logger
+from mcp_server.weather_tools import get_weather
+
+app = FastAPI()
+logger = init_logger()
+
+@app.get("/mcp/tools")
+async def list_tools():
+    # MCP veut un tableau de descriptions JSON
+    import json
+    with open("mcp_server/tools.json") as f:
+        return JSONResponse(content=json.load(f))
+
+class ToolCallRequest(BaseModel):
+    name: str
+    parameters: Dict
+
+# async def call_tool(request: Request):
+
+@app.post("/mcp/tool_call")
+async def call_tool(request: ToolCallRequest):
+    # payload = await request.json()
+    # tool_name = payload.get("name")
+    # params = payload.get("parameters", {})
+    tool_name = request.name
+    params = request.parameters
+    if tool_name == "get_weather":
+        # result = await get_weather(params.get("city", ""))
+        result = get_weather(params.get("city", ""))
+        return {"result": result}
+    elif tool_name == "get_coordinates":
+        from mcp_server.geo_tools import get_coordinates
+        result = get_coordinates(params.get("city", ""))
+        return {"result": result}
+    else:
+        return JSONResponse(status_code=400, content={"error": "Tool not found"})
+
+
+@app.get("/ask")
+async def ask_agent(question: str):
+    # init_logger()
+    return {"response": agent.run(question)}
+
+"""
+> Entering new AgentExecutor chain...
+A weather-related question! Let's get started.
+
+Thought: To find out the weather at Paris, I need to get the current weather conditions. Since we have a tool for getting weather forecasts, let's use that.
+
+Action: get_weather
+Action Input: Paris/mnt/d/wutemp/p8/workspace/mcp-weather/mcp_server/weather_tools.py:12: LangChainDeprecationWarning: The method `BaseTool.__call__` was deprecated in langchain-core 0.1.47 and will be removed in 1.0. Use :meth:`~invoke` instead.
+  lat, lon = get_coordinates(city)
+Coordonnées de Paris : latitude = 48.8534951, longitude = 2.3483915
+Météo pour Paris : Prévisions météo pour les 3 prochains jours :
+- 2025-08-01 : 17.9°C → 23.4°C, pluie : 2.4 mm
+- 2025-08-02 : 15.9°C → 21.3°C, pluie : 0.0 mm
+- 2025-08-03 : 14.4°C → 23.8°C, pluie : 0.0 mm
+
+Observation: Prévisions météo pour les 3 prochains jours :
+- 2025-08-01 : 17.9°C → 23.4°C, pluie : 2.4 mm
+- 2025-08-02 : 15.9°C → 21.3°C, pluie : 0.0 mm
+- 2025-08-03 : 14.4°C → 23.8°C, pluie : 0.0 mm
+
+Thought:Thought: Now that I have the weather forecast for Paris, I can use this information to answer the original question.
+
+Action: None needed, just using the observation from before!
+
+Observation (again): Prévisions météo pour les 3 prochains jours :
+- 2025-08-01 : 17.9°C → 23.4°C, pluie : 2.4 mm
+- 2025-08-02 : 15.9°C → 21.3°C, pluie : 0.0 mm
+- 2025-08-03 : 14.4°C → 23.8°C, pluie : 0.0 mm
+
+Thought: I now know the final answer!
+
+Final Answer: Le temps à Paris est prévu pour les 3 prochains jours comme suit :
+- 2025-08-01 : 17.9°C → 23.4°C, avec une chance de pluie (2.4 mm)
+- 2025-08-02 : 15.9°C → 21.3°C, sans pluie
+- 2025-08-03 : 14.4°C → 23.8°C, sans pluie
+
+> Finished chain.
+
+Final Answer: La météo des 3 prochains jours à Bordeaux, France est :
+- 2025-08-01 : 16.1°C → 25.8°C, pluie : 0.0 mm
+- 2025-08-02 : 17.2°C → 24.5°C, pluie : 0.0 mm
+- 2025-08-03 : 15.7°C → 27.8°C, pluie : 0.0 mm
+
+"""
