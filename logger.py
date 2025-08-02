@@ -1,6 +1,5 @@
 import logging
 
-# Configuration directe de logging
 def _setup_logging(level=logging.INFO):
     logging.basicConfig(
         level=level,
@@ -8,11 +7,9 @@ def _setup_logging(level=logging.INFO):
         datefmt="%Y-%m-%d %H:%M:%S"
     )
 
-# Pour récupérer un logger par nom
 def _get_logger(name=None):
     return logging.getLogger(name)
 
-def init_logger(name="mon_logger"):
-    _setup_logging()
-    log = _get_logger(name)
-    return log
+def init_logger(name="weather_logger", level=logging.INFO):
+    _setup_logging(level)
+    return _get_logger(name)

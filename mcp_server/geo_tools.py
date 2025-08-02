@@ -2,7 +2,7 @@ import requests
 from langchain.tools import tool
 
 @tool
-def get_coordinates(city: str) -> tuple:
+def get_coordinates_openstreetmap(city: str) -> tuple:
     """
     Récupère la latitude et la longitude d'une ville (et optionnellement d'un pays)
     à l'aide de l'API Nominatim d'OpenStreetMap.
@@ -39,9 +39,10 @@ def get_coordinates(city: str) -> tuple:
     return latitude, longitude
 
 @tool
-def get_coordinates_v2(city: str) -> tuple:
+def get_coordinates_openmeteo(city: str) -> tuple:
     """Récupère les coordonnées GPS d'une ville donnée sous forme de (latitude, longitude)."""
     url = f"https://geocoding-api.open-meteo.com/v1/search?name={city}&count=1"
+    # https://geocoding-api.open-meteo.com/v1/search?name=Paris&count=1
     r = requests.get(url)
     data = r.json()
     if results := data.get("results"):

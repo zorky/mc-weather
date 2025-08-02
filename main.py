@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -8,7 +10,7 @@ from logger import init_logger
 from mcp_server.weather_tools import get_weather
 
 app = FastAPI()
-logger = init_logger()
+logger = init_logger(level=logging.DEBUG)
 
 @app.get("/mcp/tools")
 async def list_tools():
@@ -34,9 +36,9 @@ async def call_tool(request: ToolCallRequest):
         # result = await get_weather(params.get("city", ""))
         result = get_weather(params.get("city", ""))
         return {"result": result}
-    elif tool_name == "get_coordinates":
-        from mcp_server.geo_tools import get_coordinates
-        result = get_coordinates(params.get("city", ""))
+    elif tool_name == "get_coordinates_openstreetmap":
+        from mcp_server.geo_tools import get_coordinates_openstreetmap
+        result = get_coordinates_openstreetmap(params.get("city", ""))
         return {"result": result}
     else:
         return JSONResponse(status_code=400, content={"error": "Tool not found"})
@@ -44,7 +46,6 @@ async def call_tool(request: ToolCallRequest):
 
 @app.get("/ask")
 async def ask_agent(question: str):
-    # init_logger()
     return {"response": agent.run(question)}
 
 """
@@ -55,7 +56,7 @@ Thought: To find out the weather at Paris, I need to get the current weather con
 
 Action: get_weather
 Action Input: Paris/mnt/d/wutemp/p8/workspace/mcp-weather/mcp_server/weather_tools.py:12: LangChainDeprecationWarning: The method `BaseTool.__call__` was deprecated in langchain-core 0.1.47 and will be removed in 1.0. Use :meth:`~invoke` instead.
-  lat, lon = get_coordinates(city)
+  lat, lon = get_coordinates_openstreetmap(city)
 Coordonnées de Paris : latitude = 48.8534951, longitude = 2.3483915
 Météo pour Paris : Prévisions météo pour les 3 prochains jours :
 - 2025-08-01 : 17.9°C → 23.4°C, pluie : 2.4 mm

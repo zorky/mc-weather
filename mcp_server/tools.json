@@ -14,7 +14,7 @@
     }
   },
   {
-    "name": "get_coordinates",
+    "name": "get_coordinates_openmeteo",
     "description": "Obtenir les coordonnées GPS d'une ville donnée",
     "parameters": {
       "type": "object",

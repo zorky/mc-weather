@@ -7,9 +7,9 @@ services:
     volumes:
       - ollama:/root/.ollama
     restart: unless-stopped
-#    entrypoint: /bin/sh -c "ollama serve & sleep 3 && ollama pull tinyllama && wait"
-    entrypoint: /bin/sh -c "ollama serve & sleep 3 && ollama pull llama3:8b && wait"
-#    entrypoint: /bin/sh -c "ollama serve & sleep 3 && ollama pull ${LLM_MODEL} && wait"
+    entrypoint: /bin/sh -c "ollama serve & sleep 3 && ollama pull mistral && wait"
+#    entrypoint: /bin/sh -c "ollama serve & sleep 3 && ollama pull llama3:8b-instruct-q4_K_M && wait"
+#    entrypoint: /bin/sh -c "ollama serve & sleep 3 && ollama pull llama3:8b && wait"
 
 #  mcp-server:
 #      build:

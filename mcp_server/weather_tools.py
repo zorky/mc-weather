@@ -1,14 +1,19 @@
+import logging
+
 import requests
 from langchain.tools import tool
 
-import logger
-from mcp_server.geo_tools import get_coordinates
+from logger import init_logger
+from mcp_server.geo_tools import get_coordinates_openmeteo, get_coordinates_openstreetmap
+logger = init_logger(level=logging.DEBUG)
 
 @tool
 def get_weather(city: str) -> str:
     """Renvoie les prévisions météo pour une ville donnée. description obligatoire pour tool"""
     logger.debug(f"Récupération des prévisions météo pour {city}")
-    lat, lon = get_coordinates(city)
+    lat, lon = get_coordinates_openmeteo(city)
+    logger.debug(f"Latitude : {lat} - Longitude : {lon}")
+    # lat, lon = get_coordinates_openstreetmap(city)
     url = "https://api.open-meteo.com/v1/forecast"
     params = {
         "latitude": lat,
