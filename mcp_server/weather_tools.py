@@ -7,9 +7,11 @@ from logger import init_logger
 from mcp_server.geo_tools import get_coordinates_openmeteo, get_coordinates_openstreetmap
 logger = init_logger(level=logging.DEBUG)
 
+MAX_DAYS=7
+
 @tool
 def get_weather(city: str) -> str:
-    """Renvoie les prévisions météo pour une ville donnée. description obligatoire pour tool"""
+    """Renvoie les prévisions météo pour une ville donnée, maximum pour les 6 prochains jours. description obligatoire pour tool"""
     logger.debug(f"Récupération des prévisions météo pour {city}")
     lat, lon = get_coordinates_openmeteo(city)
     logger.debug(f"Latitude : {lat} - Longitude : {lon}")
@@ -28,8 +30,8 @@ def get_weather(city: str) -> str:
     if "daily" not in data:
         return "Pas de données météo disponibles."
     forecast = data["daily"]
-    output = "Prévisions météo pour les 3 prochains jours :\n"
-    for i in range(min(3, len(forecast["time"]))):
+    output = "Prévisions météo pour les prochains jours :\n"
+    for i in range(min(MAX_DAYS, len(forecast["time"]))):
         day = forecast["time"][i]
         t_min = forecast["temperature_2m_min"][i]
         t_max = forecast["temperature_2m_max"][i]
@@ -37,6 +39,5 @@ def get_weather(city: str) -> str:
         output += f"- {day} : {t_min}°C → {t_max}°C, pluie : {rain} mm\n"
     print(f"Météo pour {city} : {output.strip()}")
     return output
-    # return fake_weather.get(city, f"Aucune donnée météo pour {city}")
 
 # async def get_weather(city: str) -> str:
