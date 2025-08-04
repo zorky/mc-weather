@@ -26,7 +26,7 @@ if st.button("Envoyer") and user_input.strip():
                 timeout=240
             )
             if response.status_code == 200:
-                answer = response.json().get("answer", "Pas de réponse.")
+                answer = response.json().get("response", "Pas de réponse.")
                 st.success(answer)
             else:
                 st.error(f"Erreur API : {response.status_code}")

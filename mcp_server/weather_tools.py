@@ -39,5 +39,3 @@ def get_weather(city: str) -> str:
         output += f"- {day} : {t_min}°C → {t_max}°C, pluie : {rain} mm\n"
     logger.debug(f"Météo pour {city} : {output.strip()}")
     return output
-
-# async def get_weather(city: str) -> str:
