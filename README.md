@@ -36,6 +36,10 @@ pip install -r requirements.txt
 # Lancer le serveur MCP avec l'ASGI uvicorn pour FastAPI
 
 ```bash
+$ docker compose up
+```
+
+```bash
 cd mcp_server
 uvicorn main:app --reload
 ```

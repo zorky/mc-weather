@@ -7,3 +7,4 @@ langchain-community
 langchainhub
 openai
 pydantic
+streamlit

@@ -1,12 +1,13 @@
-import logging
-
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Dict
 
 from agent.agent import agent
+
+import logging
 from logger import init_logger
+
 from mcp_server.weather_tools import get_weather
 
 app = FastAPI()
