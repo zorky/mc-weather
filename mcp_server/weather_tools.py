@@ -37,7 +37,7 @@ def get_weather(city: str) -> str:
         t_max = forecast["temperature_2m_max"][i]
         rain = forecast["precipitation_sum"][i]
         output += f"- {day} : {t_min}°C → {t_max}°C, pluie : {rain} mm\n"
-    print(f"Météo pour {city} : {output.strip()}")
+    logger.debug(f"Météo pour {city} : {output.strip()}")
     return output
 
 # async def get_weather(city: str) -> str:
