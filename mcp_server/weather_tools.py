@@ -1,6 +1,8 @@
 import logging
 
 import requests
+from datetime import datetime
+
 from langchain.tools import tool
 
 from logger import init_logger
@@ -8,6 +10,14 @@ from mcp_server.geo_tools import get_coordinates_openmeteo, get_coordinates_open
 logger = init_logger(level=logging.DEBUG)
 
 MAX_DAYS=7
+
+def _transform_date(date_str: str, short = True) -> str:
+    """Transforme une date au format 'YYYY-MM-DD' en 'DD/MM/YYYY'."""
+    try:
+        date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+        return date_obj.strftime("%d/%m/%Y")
+    except ValueError:
+        return date_str  # Retourne la chaîne originale si le format est incorrect
 
 @tool
 def get_weather(city: str) -> str:
@@ -32,6 +42,7 @@ def get_weather(city: str) -> str:
     forecast = data["daily"]
     output = "Prévisions météo pour les prochains jours :\n"
     for i in range(min(MAX_DAYS, len(forecast["time"]))):
+        # day = _transform_date(forecast["time"][i])
         day = forecast["time"][i]
         t_min = forecast["temperature_2m_min"][i]
         t_max = forecast["temperature_2m_max"][i]
