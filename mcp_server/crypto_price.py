@@ -19,7 +19,7 @@ def get_crypto_price(symbol: str) -> str:
         # r = requests.get(url, params=params)
         r = requests.get(url)
         data = r.json()
-        price = data.get(symbol.lower(), {}).get("EUR")
+        price = data.get(symbol, {}).get("EUR")
         if price:
             return_response = f"Le cours de {symbol.upper()} est de {price} €"
             logger.debug(return_response)
