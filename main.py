@@ -1,3 +1,7 @@
+"""
+Application principale pour le serveur FastAPI qui gère les requêtes de l'agent
+ask + tools <--> Ollama LLM
+"""
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -13,6 +17,10 @@ from mcp_server.weather_tools import get_weather
 app = FastAPI()
 logger = init_logger(level=logging.DEBUG)
 
+@app.get("/ask")
+async def ask_agent(question: str):
+    return {"response": agent.run(question)}
+
 @app.get("/mcp/tools")
 async def list_tools():
     # MCP veut un tableau de descriptions JSON
@@ -23,8 +31,6 @@ async def list_tools():
 class ToolCallRequest(BaseModel):
     name: str
     parameters: Dict
-
-# async def call_tool(request: Request):
 
 @app.post("/mcp/tool_call")
 async def call_tool(request: ToolCallRequest):
@@ -43,11 +49,6 @@ async def call_tool(request: ToolCallRequest):
         return {"result": result}
     else:
         return JSONResponse(status_code=400, content={"error": "Tool not found"})
-
-
-@app.get("/ask")
-async def ask_agent(question: str):
-    return {"response": agent.run(question)}
 
 """
 > Entering new AgentExecutor chain...

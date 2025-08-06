@@ -7,7 +7,8 @@ services:
     # runtime: nvidia
     environment:
     #  NVIDIA_VISIBLE_DEVICES: "all"
-      OLLAMA_KV_CACHE_TYPE: "q8_0"
+    #  OLLAMA_KV_CACHE_TYPE: "q8_0"
+      OLLAMA_KV_CACHE_TYPE: "q4_0" # https://mitjamartini.com/blog/kv-cache-quantization-in-ollama/
       OLLAMA_KEEP_ALIVE: "24h"
       OLLAMA_MAX_LOADED_MODELS: "1"
       OLLAMA_FLASH_ATTENTION: "1"
@@ -48,6 +49,8 @@ services:
       - "8501:8501"
     environment:
       - AGENT_WEATHER_URL=http://agent-weather:8000/ask
+      - TIMEOUT_REQUEST_AGENT=600 # 10 minutes - côté nginx mettre proxy_read_timeout 600;
+
       - STREAMLIT_SERVER_ENABLE_CORS=false
       - STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION=false
       - STREAMLIT_SERVER_HEADLESS=true
