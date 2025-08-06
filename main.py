@@ -7,7 +7,6 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Dict
 
-
 import logging
 from logger import init_logger
 
@@ -19,7 +18,6 @@ from mcp_server.weather_tools import get_weather
 app = FastAPI()
 logger = init_logger(level=logging.DEBUG)
 
-# @measure_time
 @app.get("/ask")
 async def ask_agent(question: str):
     return {"response": agent.run(question)}

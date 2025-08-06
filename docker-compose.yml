@@ -48,6 +48,7 @@ services:
       - "8501:8501"
     environment:
       - AGENT_WEATHER_URL=http://agent-weather:8000/ask
+#      - AGENT_WEATHER_URL=http://agent-weather:8000/ask_hybrid
     depends_on:
       - agent-weather
     restart: unless-stopped
