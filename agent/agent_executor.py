@@ -38,7 +38,7 @@ def create_hybrid_agent():
     # tools_names = "get_weather"
     tools = [
         Tool(
-            name="prévisions_météo",
+            name="get_weather",
             func=lambda ville: get_weather(ville),
             description="Obtient les prévisions météo sur plusieurs jours d'une ville. Input: nom de la ville"
         ),
