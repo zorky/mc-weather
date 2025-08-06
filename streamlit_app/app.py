@@ -3,7 +3,7 @@ import requests
 import os
 
 AGENT_WEATHER_URL = os.getenv("AGENT_WEATHER_URL", "http://localhost:8000/ask")
-TIMEOUT_REQUEST_AGENT = os.getenv("TIMEOUT_REQUEST_AGENT", 240)
+TIMEOUT_REQUEST_AGENT = int(os.getenv("TIMEOUT_REQUEST_AGENT", 240))
 
 # streamlit page
 st.set_page_config(page_title="Agent météo", page_icon="⛅")
