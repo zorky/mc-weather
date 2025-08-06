@@ -11,14 +11,6 @@ logger = init_logger(level=logging.DEBUG)
 
 MAX_DAYS=7
 
-def _transform_date(date_str: str, short = True) -> str:
-    """Transforme une date au format 'YYYY-MM-DD' en 'DD/MM/YYYY'."""
-    try:
-        date_obj = datetime.strptime(date_str, "%Y-%m-%d")
-        return date_obj.strftime("%d/%m/%Y")
-    except ValueError:
-        return date_str  # Retourne la chaîne originale si le format est incorrect
-
 @tool
 def get_weather(city: str) -> str:
     """Renvoie les prévisions météo pour une ville donnée, maximum pour les 6 prochains jours. description obligatoire pour tool"""
@@ -50,3 +42,11 @@ def get_weather(city: str) -> str:
         output += f"- {day} : {t_min}°C → {t_max}°C, pluie : {rain} mm\n"
     logger.debug(f"Météo pour {city} : {output.strip()}")
     return output
+
+def _transform_date(date_str: str, short = True) -> str:
+    """Transforme une date au format 'YYYY-MM-DD' en 'DD/MM/YYYY'."""
+    try:
+        date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+        return date_obj.strftime("%d/%m/%Y")
+    except ValueError:
+        return date_str  # Retourne la chaîne originale si le format est incorrect

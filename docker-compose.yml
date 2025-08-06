@@ -7,7 +7,7 @@ services:
     runtime: nvidia
     environment:
       NVIDIA_VISIBLE_DEVICES: "all"
-      OLLAMA_KV_CACHE_TYPE: "q8_0"
+      OLLAMA_KV_CACHE_TYPE: "q4_0"
       OLLAMA_KEEP_ALIVE: "24h"
       OLLAMA_MAX_LOADED_MODELS: "1"
       OLLAMA_FLASH_ATTENTION: "1"
