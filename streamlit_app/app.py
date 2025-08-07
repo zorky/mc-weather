@@ -6,10 +6,16 @@ AGENT_WEATHER_URL = os.getenv("AGENT_WEATHER_URL", "http://localhost:8000/ask")
 TIMEOUT_REQUEST_AGENT = int(os.getenv("TIMEOUT_REQUEST_AGENT", 240))
 
 # streamlit page
-st.set_page_config(page_title="Agent météo", page_icon="⛅")
+st.set_page_config(page_title="Agent tools", page_icon="🔧")
 
-st.title("Assistant météo avec Ollama + Tools 🌍")
-st.markdown("Posez une question, par exemple : *Quelle est la météo à Paris demain ?*")
+st.title("Assistant avec Ollama + Tools 🌍")
+
+st.markdown("""
+Posez une question, par exemple :
+
+* *Quelle est la météo à Paris sur 6 jours ?*
+* *Quel est le prix de BTC et d'ETH ?*
+""")
 
 user_input = st.text_input("Votre question", placeholder="Ex: Quelle est la météo à Lyon dans 2 jours ?")
 
