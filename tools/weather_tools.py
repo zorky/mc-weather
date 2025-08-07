@@ -6,7 +6,7 @@ from datetime import datetime
 from langchain.tools import tool
 
 from logger import init_logger
-from mcp_server.geo_tools import get_coordinates_openmeteo, get_coordinates_openstreetmap
+from tools.geo_tools import get_coordinates_openmeteo #, get_coordinates_openstreetmap
 logger = init_logger(level=logging.DEBUG)
 
 MAX_DAYS=7

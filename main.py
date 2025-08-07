@@ -13,7 +13,7 @@ from logger import init_logger
 from agent.agent import agent
 from agent.agent_executor import create_hybrid_agent
 
-from mcp_server.weather_tools import get_weather
+from tools.weather_tools import get_weather
 
 app = FastAPI()
 logger = init_logger(level=logging.DEBUG)

@@ -3,15 +3,15 @@ import logging
 from logger import init_logger
 logger = init_logger(level=logging.DEBUG)
 
-from langchain.agents import initialize_agent, AgentType
 from langchain.agents import Tool, AgentExecutor, create_react_agent
 from langchain.prompts import PromptTemplate
 
 from langchain_community.chat_models import ChatOpenAI
-from langchain_community.llms import Ollama
 
-from mcp_server.weather_tools import get_weather
-# from mcp_server.geo_tools import get_coordinates_openstreetmap, get_coordinates_openmeteo
+from tools.crypto_price import get_crypto_price
+from tools.weather_tools import get_weather
+# from tools.geo_tools import get_coordinates_openmeteo
+# from tools.geo_tools import get_coordinates_openstreetmap
 
 MODEL=os.getenv("MODEL", "llama3:8b-instruct-q4_K_M")
 LLM_API=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434/v1")
@@ -22,11 +22,6 @@ LLM_TEMPERATURE=0.3  # 0 : déterministe et précis, 0.3 : un peu plus créatif
 def create_hybrid_agent():
     logger.debug("creating hybrid agent")
     logger.debug(f"Utilisation du modèle: {MODEL} sur {LLM_API} avec la temperature {LLM_TEMPERATURE}")
-    # llm = Ollama(
-    #     model=MODEL,
-    #     base_url=LLM_API,
-    #     temperature=LLM_TEMPERATURE
-    # )
     llm = ChatOpenAI(
         temperature=LLM_TEMPERATURE,
         model=MODEL,
@@ -38,9 +33,15 @@ def create_hybrid_agent():
     # tools_names = "get_weather"
     tools = [
         Tool(
+
             name="get_weather",
             func=lambda ville: get_weather(ville),
             description="Obtient les prévisions météo sur plusieurs jours d'une ville. Input: nom de la ville"
+        ),
+        Tool(
+            name="get_crypto_price",
+            func=lambda symbol: get_crypto_price(symbol),
+            description="Obtient le cour d'une cryptomonnaie. Input: symbole de la cryptomonnaie (ex: BTC, ETH)"
         ),
     ]
     # Prompt hybride permettant connaissances générales + outils

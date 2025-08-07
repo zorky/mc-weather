@@ -23,6 +23,7 @@ Posez une question, par exemple :
 
 * *Quelle est la météo à Paris sur 6 jours ?*
 * *Quel est le prix de BTC et d'ETH ?*
+* *Quelles sont les coordonnées GPS de Paris ?*
 """)
 
 user_input = st.text_input("Votre question", placeholder="Ex: Quelle est la météo à Lyon dans 2 jours ?")
