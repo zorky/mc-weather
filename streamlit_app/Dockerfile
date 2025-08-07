@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
 
 COPY app.py .
 
-RUN pip install --no-cache-dir streamlit requests
+RUN pip install --no-cache-dir streamlit requests pydantic
 
 EXPOSE 8501
 

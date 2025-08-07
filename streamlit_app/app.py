@@ -1,6 +1,8 @@
 import streamlit as st
 import requests
 import os
+
+from pydantic import BaseModel
 from typing import Optional
 
 AGENT_WEATHER_URL = os.getenv("AGENT_WEATHER_URL", "http://localhost:8000/ask")
@@ -29,7 +31,7 @@ if st.button("Envoyer") and user_input.strip():
     with st.spinner("Réflexion de l'agent... 🤔"):
         try:
             print(f"Envoi de la question à l'API {AGENT_WEATHER_URL}")
-            
+            question = user_input
             response = requests.get(
                 AGENT_WEATHER_URL,
                 params={"question": question},
@@ -37,7 +39,7 @@ if st.button("Envoyer") and user_input.strip():
             )
     
             if response.status_code == 200:
-                data = res.json()
+                data = response.json()
                 parsed = AgentResponse(**data)
                 answer = parsed.response or "Pas de réponse."
                 # answer = response.json().get("response", "Pas de réponse.")
