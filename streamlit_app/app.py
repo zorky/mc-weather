@@ -1,10 +1,16 @@
 import streamlit as st
 import requests
 import os
+from typing import Optional
 
 AGENT_WEATHER_URL = os.getenv("AGENT_WEATHER_URL", "http://localhost:8000/ask")
 TIMEOUT_REQUEST_AGENT = int(os.getenv("TIMEOUT_REQUEST_AGENT", 240))
 
+class AgentResponse(BaseModel):
+    response: str
+    tool: Optional[str] = None
+    metadata: Optional[dict] = None
+    
 # streamlit page
 st.set_page_config(page_title="Agent tools", page_icon="🔧")
 
@@ -23,13 +29,18 @@ if st.button("Envoyer") and user_input.strip():
     with st.spinner("Réflexion de l'agent... 🤔"):
         try:
             print(f"Envoi de la question à l'API {AGENT_WEATHER_URL}")
-            # Envoie la question à l'agent météo via l'API FastAPI -> Ollama
+            
             response = requests.get(
-                f"{AGENT_WEATHER_URL}?question={user_input}",  # adapte selon ton endpoint
+                AGENT_WEATHER_URL,
+                params={"question": question},
                 timeout=TIMEOUT_REQUEST_AGENT
             )
+    
             if response.status_code == 200:
-                answer = response.json().get("response", "Pas de réponse.")
+                data = res.json()
+                parsed = AgentResponse(**data)
+                answer = parsed.response or "Pas de réponse."
+                # answer = response.json().get("response", "Pas de réponse.")
                 st.success(answer)
             else:
                 st.error(f"Erreur API : {response.status_code}")
