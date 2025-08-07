@@ -13,7 +13,7 @@ from tools.weather_tools import get_weather
 # from tools.geo_tools import get_coordinates_openmeteo
 # from tools.geo_tools import get_coordinates_openstreetmap
 
-MODEL=os.getenv("MODEL", "llama3:8b-instruct-q4_K_M")
+MODEL=os.getenv("MODEL_NAME", "llama3:8b-instruct-q4_K_M")
 LLM_API=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434/v1")
 
 LLM_TEMPERATURE=0.3  # 0 : déterministe et précis, 0.3 : un peu plus créatif
