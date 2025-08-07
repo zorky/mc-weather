@@ -25,9 +25,9 @@ services:
     restart: unless-stopped
     entrypoint: /bin/sh -c "ollama serve & sleep 3 && ollama pull ${LLM_MODEL} && wait"
 
-  agent-weather:
-    container_name: agent-weather
-    image: tools-weather
+  agent-tools:
+    container_name: agent-tools
+    image: agent-tools
     build:
       context: .
     ports:
@@ -41,16 +41,16 @@ services:
 
   streamlit:
     container_name: streamlit
-    image: streamlit-weather
+    image: streamlit-tools
     build:
       context: ./streamlit_app
     ports:
       - "8501:8501"
     environment:
-      - AGENT_WEATHER_URL=http://agent-weather:8000/ask
-#      - AGENT_WEATHER_URL=http://agent-weather:8000/ask_hybrid
+      - AGENT_WEATHER_URL=http://agent-tools:8000/ask
+#      - AGENT_WEATHER_URL=http://agent-tools:8000/ask_hybrid
     depends_on:
-      - agent-weather
+      - agent-tools
     restart: unless-stopped
 
 volumes:
