@@ -43,7 +43,6 @@ if st.button("Envoyer") and user_input.strip():
                 data = response.json()
                 parsed = AgentResponse(**data)
                 answer = parsed.response or "Pas de réponse."
-                # answer = response.json().get("response", "Pas de réponse.")
                 st.success(answer)
             else:
                 st.error(f"Erreur API : {response.status_code}")
